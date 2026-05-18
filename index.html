@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReBuild.ID</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,600;0,700;1,200&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+</head>
+  <body>
+    <section class="header" id="platform">
+      <video autoplay muted loop playsinline class="bg-video">
+        <source src="video/city-video.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+      <nav>
+        <a href="index.html"><img src="images/logo.png"></a>
+        <div class="nav-links" id="navLinks">
+          <i class="fa-solid fa-xmark" onclick="hideMenu()"></i>
+          <ul>
+            <li><a href="#platform">Platform</a></li>
+            <li><a href="#city-pulse">City Pulse</a></li>
+            <li><a href="#realtime-map">Realtime Map</a></li>
+            <li><a href="#citizen-report">Citizen Report</a></li>
+            <li><a href="#insight">Insight</a></li>
+            <li><a href="#citizen-pulse">Citizen Pulse</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </div>
+        <i class="fa-solid fa-bars" onclick="showMenu()"></i>
+      </nav>
+      <div class="text-box">
+        <h1>Your Voice Shapes The Future City</h1>
+        <p>Empowering citizens to report, monitor, and improve urban environments through realtime technology and AI-driven insights.</p>
+        <a href="about.html" class="hero-btn">
+  Visit Us To Know More
+</a>
+      </div>
+    </section>
+
+    <section class="city-pulse" id="city-pulse">
+      <h1>City Pulse</h1>
+      <p>Discover a place where innovation is not just an idea, but a continuous process of creating meaningful impact. We bring together creativity, technology, and purpose to develop solutions that are relevant to today’s needs and adaptable for the future. Through a commitment to excellence and collaboration, we aim to transform visionary ideas into real outcomes that inspire growth, deliver value, and create lasting change.</p>
+      <div class="pulse-feed">
+    <div class="post" ondblclick="spawnHearts(this)" onclick="openPost(0)">
+      <img src="images/banjir-sumatera.jpg">
+      <div class="heart-container"></div>
+      <div class="post-info">
+        <span><i class="fa-regular fa-heart"></i> 12k</span>
+        <span><i class="fa-regular fa-comment"></i> 3k</span>
+      </div>
+    </div>
+    <div class="post" ondblclick="spawnHearts(this)" onclick="openPost(1)">
+      <img src="images/perbaikan-jalan.jpg">
+      <div class="heart-container"></div>
+      <div class="post-info">
+        <span><i class="fa-regular fa-heart"></i> 25k</span>
+        <span><i class="fa-regular fa-comment"></i> 18k</span>
+      </div>
+    </div>
+    <div class="post" ondblclick="spawnHearts(this)" onclick="openPost(2)">
+      <img src="images/jembatan.jpeg">
+      <div class="heart-container"></div>
+      <div class="post-info">
+        <span><i class="fa-regular fa-heart"></i> 9k</span>
+        <span><i class="fa-regular fa-comment"></i> 7.5k</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div id="modal" class="modal" onclick="closePost()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <img id="modalImg">
+    <h2 id="modalTitle"></h2>
+    <p id="modalCaption"></p>
+    <small id="modalMeta"></small>
+    <div class="actions">
+      <button onclick="likePost(this)">
+        <i class="fa-regular fa-heart"></i> Like
+      </button>
+      <button onclick="fakeComment()">
+        <i class="fa-regular fa-comment"></i> Comment
+      </button>
+      <button
+  type="button"
+  onclick="event.preventDefault(); event.stopPropagation(); closePost(); return false;"
+>
+        <i class="fa-solid fa-xmark"></i> Close
+      </button>
+    </div>
+    <div id="commentBox"></div>
+  </div>
+</div>
+    </section>
+
+<section id="realtime-map">
+  <div class="container">
+    <div class="map-text">
+      <h2>Realtime Map</h2>
+      <p class="desc">
+        Realtime Map gives a live view of city activity through an interactive map. Every report and event is shown based on its location, helping users quickly understand what’s happening across the city in a clear and visual way.
+      </p>
+      <div class="tags">
+        <span>📍 Live Tracking</span>
+        <span>🏗 Infrastructure</span>
+        <span>🚨 Incident Reports</span>
+      </div>
+      <button class="btn" onclick="showMap()">Explore Map</button>
+    </div>
+    <div id="map-wrapper" class="hidden">
+      <div id="map"></div>
+    </div>
+  </div>
+</section>
+
+<section id="citizen-report">
+  <div class="report-form-container">
+    <div class="report-title">
+      <h2>Citizen Report</h2>
+      <p>
+        Share what’s happening around your city by uploading a photo or video along with a short description.
+      </p>
+    </div>
+    <form id="reportForm">
+      <input
+        type="text"
+        id="username"
+        placeholder="Your username"
+        required
+      >
+      <input
+        type="file"
+        id="mediaUpload"
+        accept="image/*,video/*"
+        required
+      >
+      <textarea
+        id="description"
+        rows="5"
+        placeholder="Describe the situation..."
+        required
+      ></textarea>
+      <button type="submit">Submit Report</button>
+    </form>
+  </div>
+
+</section>
+
+<section id="insight">
+  <div class="insight-container">
+    <div class="insight-header">
+      <h2>Insight</h2>
+      <p>
+        Insight is a data analysis module that generates patterns, trends, and predictions from collected data. This feature supports faster, data-driven decision-making.
+      </p>
+    </div>
+    <div class="insight-grid">
+      <div class="insight-card">
+        <div class="icon">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <h3>Trend Analysis</h3>
+        <p>
+          The system analyzes citizen reports to identify increasing patterns and emerging issues across different city areas in realtime.
+        </p>
+        <div class="progress-box">
+          <span>Traffic Issue Growth</span>
+          <div class="progress-bar">
+            <div class="progress-fill fill-1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="insight-card">
+        <div class="icon">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h3>Risk Prediction</h3>
+        <p>
+          AI-powered prediction helps detect potential flood zones, traffic congestion, and infrastructure risks before conditions worsen.
+        </p>
+        <div class="progress-box">
+          <span>Flood Risk</span>
+          <div class="progress-bar">
+            <div class="progress-fill fill-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="insight-card">
+        <div class="icon">
+          <i class="fa-solid fa-city"></i>
+        </div>
+        <h3>Urban Activity</h3>
+        <p>
+          Monitoring urban activity based on citizen reports to understand areas with the highest mobility.
+        </p>
+        <div class="progress-box">
+          <span>City Activity</span>
+          <div class="progress-bar">
+            <div class="progress-fill fill-3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section id="citizen-pulse">
+  <div class="pulse-container">
+    <div class="pulse-header">
+      <h2>Citizen Pulse</h2>
+      <p>
+        Citizen Pulse collects public opinions, feedback, and community sentiment to better understand how citizens feel about their city in realtime.
+      </p>
+    </div>
+    <div class="pulse-grid">
+      <div class="pulse-card">
+        <h3>
+          How satisfied are you with public transportation?
+        </h3>
+        <div class="vote-buttons">
+          <button onclick="vote(this)">
+            👍 Good
+          </button>
+          <button onclick="vote(this)">
+            😐 Average
+          </button>
+          <button onclick="vote(this)">
+            👎 Poor
+          </button>
+        </div>
+        <div class="vote-result">
+          <div class="vote-fill fill-a"></div>
+        </div>
+        <small>Realtime community feedback</small>
+      </div>
+      <div class="pulse-card">
+        <h3>
+          Which city issue should be prioritized?
+        </h3>
+        <div class="vote-buttons">
+          <button onclick="vote(this)">
+            🚦 Traffic
+          </button>
+          <button onclick="vote(this)">
+            🌊 Flood
+          </button>
+          <button onclick="vote(this)">
+            🛣 Roads
+          </button>
+        </div>
+        <div class="vote-result">
+          <div class="vote-fill fill-b"></div>
+        </div>
+        <small>Most discussed urban issue</small>
+      </div>
+      <div class="pulse-card">
+        <h3>
+          Do you support smarter green city initiatives?
+        </h3>
+        <div class="vote-buttons">
+          <button onclick="vote(this)">
+            🌱 Yes
+          </button>
+          <button onclick="vote(this)">
+            🤔 Maybe
+          </button>
+          <button onclick="vote(this)">
+            ❌ No
+          </button>
+        </div>
+        <div class="vote-result">
+          <div class="vote-fill fill-c"></div>
+        </div>
+        <small>Environmental awareness trend</small>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- AUTH OVERLAY -->
+<div id="authModal" class="modal">
+
+  <div class="modal-box">
+
+    <!-- CLOSE BUTTON -->
+    <div class="close" onclick="closeAuth()">✖</div>
+
+    <h2>ReBuild.ID</h2>
+
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <p class="switch">
+      Belum punya akun? <span onclick="switchToRegister()">Register</span>
+    </p>
+
+  </div>
+</div>
+
+    <script>
+      var navLinks = document.getElementById("navLinks");
+function showMenu(){
+    navLinks.style.right = "0";
+    document.body.classList.add("menu-open");
+}
+function hideMenu(){
+    navLinks.style.right = "-250px";
+    document.body.classList.remove("menu-open");
+}
+      let currentIndex = 0;
+
+const posts = [
+  {
+    img: "images/banjir-sumatera.jpg",
+    title: "Flood Report",
+    caption: "Banjir melanda sejumlah wilayah di Sumatera akibat curah hujan tinggi, menyebabkan aktivitas warga terganggu dan beberapa kawasan terdampak cukup parah.",
+    user: "@nabs_ayu",
+    date: "16 January 2025",
+    likes: 12000
+  },
+  {
+    img: "images/perbaikan-jalan.jpg",
+    title: "Road Repair",
+    caption: "Setelah dilaporkan warga, Pemkot Surabaya bergerak memperbaiki jalan berlubang demi kenyamanan pengguna jalan.",
+    user: "@_frizzy",
+    date: "21 February 2026",
+    likes: 25000
+  },
+  {
+    img: "images/jembatan.jpeg",
+    title: "Structural Issue",
+    caption: "Jembatan penghubung Sidoarjo–Mojokerto di Kecamatan Tarik dalam kondisi memprihatinkan dan belum mendapat penanganan, sehingga dinilai berisiko bagi pengguna jalan.",
+    user: "@nik.kitiw",
+    date: "3 May 2026",
+    likes: 9000
+  }
+];
+function openPost(index){
+  scrollPosition = window.pageYOffset;
+  currentIndex = index;
+  const post = posts[index];
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modalImg").src = post.img;
+  document.getElementById("modalTitle").innerText = post.title;
+  document.getElementById("modalCaption").innerText = post.caption;
+  document.getElementById("modalMeta").innerText =
+    post.user + " • " + post.date + " • ❤️ " + post.likes;
+  document.getElementById("commentBox").innerHTML = "";
+}
+function closePost(){
+  document.getElementById("modal").style.display = "none";
+  window.scrollTo({
+    top: scrollPosition,
+    behavior: "auto"
+  });
+
+}
+function likePost(btn){
+  const icon = btn.querySelector("i");
+  if(icon.classList.contains("fa-regular")){
+    icon.classList.remove("fa-regular");
+    icon.classList.add("fa-solid");
+    icon.style.color = "red";
+  }
+}
+function fakeComment(){
+  document.getElementById("commentBox").innerHTML += "<p>Nice update!</p>";
+}
+function spawnHearts(post){
+  const container = post.querySelector(".heart-container");
+  for(let i=0;i<6;i++){
+    const heart = document.createElement("i");
+    heart.classList.add("floating-heart","fa-solid","fa-heart");
+    heart.style.left = Math.random()*100 + "%";
+    heart.style.animationDelay = Math.random()*0.3 + "s";
+    container.appendChild(heart);
+    setTimeout(()=> heart.remove(),1200);
+  }
+}
+let scrollPosition = 0;
+function openPost(index){
+    scrollPosition = window.pageYOffset;
+    document.body.classList.add("modal-open");
+    document.body.style.top = `-${scrollPosition}px`;
+    const post = posts[index];
+    document.getElementById("modal").style.display = "flex";
+    document.getElementById("modalImg").src = post.img;
+    document.getElementById("modalTitle").innerText = post.title;
+    document.getElementById("modalCaption").innerText = post.caption;
+    document.getElementById("modalMeta").innerText =
+        post.user + " • " + post.date;
+}
+function closePost(){
+  const modal = document.getElementById("modal");
+  modal.style.display = "none";
+  document.body.style.overflow = "auto";
+  return false;
+}
+    </script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+  let map;
+  let mapInitialized = false;
+  function showMap() {
+    const wrapper = document.getElementById("map-wrapper");
+    wrapper.classList.remove("hidden");
+    setTimeout(() => {
+      if (!mapInitialized) {
+        map = L.map('map').setView([-7.2575, 112.7521], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        const data = [
+          { name: "Jembatan Rusak", lat: -7.265, lng: 112.734 },
+          { name: "Festival Kota", lat: -7.250, lng: 112.760 }
+        ];
+        data.forEach(item => {
+          L.marker([item.lat, item.lng])
+            .addTo(map)
+            .bindPopup(item.name);
+        });
+        mapInitialized = true;
+      }
+      map.invalidateSize();
+    }, 200);
+  }
+</script>
+
+<script>
+const reportForm = document.getElementById("reportForm");
+const pulseFeed = document.querySelector(".pulse-feed");
+const userPosts = [];
+reportForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  const username = document.getElementById("username").value;
+  const description = document.getElementById("description").value;
+  const fileInput = document.getElementById("mediaUpload");
+  const file = fileInput.files[0];
+  if (!file) return;
+  const fileURL = URL.createObjectURL(file);
+  const newPost = {
+    img: fileURL,
+    title: "Citizen Report",
+    caption: description,
+    user: "@" + username,
+    date: new Date().toLocaleDateString(),
+    likes: 0,
+    liked: false,
+    isVideo: file.type.startsWith("video"),
+    type: file.type
+  };
+  posts.unshift(newPost);
+  const postElement = document.createElement("div");
+  postElement.classList.add("post");
+  postElement.setAttribute("onclick", "openPost(0)");
+  postElement.setAttribute("ondblclick", "spawnHearts(this)");
+  if (newPost.isVideo) {
+    postElement.innerHTML = `
+      <video class="feed-video" muted>
+        <source src="${fileURL}" type="${file.type}">
+      </video>
+      <div class="heart-container"></div>
+      <div class="post-info">
+        <span><i class="fa-regular fa-heart"></i> 0</span>
+        <span><i class="fa-regular fa-comment"></i> 0</span>
+      </div>
+    `;
+  } else {
+    postElement.innerHTML = `
+      <img src="${fileURL}">
+      <div class="heart-container"></div>
+      <div class="post-info">
+        <span><i class="fa-regular fa-heart"></i> 0</span>
+        <span><i class="fa-regular fa-comment"></i> 0</span>
+      </div>
+    `;
+  }
+  pulseFeed.prepend(postElement);
+  reportForm.reset();
+});
+function likePost(btn){
+  const post = posts[currentIndex];
+  const icon = btn.querySelector("i");
+  if(!post.liked){
+    post.likes++;
+    post.liked = true;
+    icon.classList.remove("fa-regular");
+    icon.classList.add("fa-solid");
+    icon.style.color = "red";
+  }
+  document.getElementById("modalMeta").innerText =
+    `${post.user} • ${post.date} • ❤️ ${post.likes}`;
+  updateFeedLikes();
+}
+function updateFeedLikes(){
+  const allPosts = document.querySelectorAll(".post");
+  allPosts.forEach((postElement, index) => {
+    const likeSpan = postElement.querySelector(".post-info span");
+    if(likeSpan){
+      likeSpan.innerHTML =
+        `<i class="fa-regular fa-heart"></i> ${posts[index].likes}`;
+    }
+  });
+}
+function openPost(index){
+  currentIndex = index;
+  const post = posts[index];
+  document.getElementById("modal").style.display = "flex";
+  if(post.isVideo){
+    document.getElementById("modalImg").outerHTML = `
+      <video id="modalImg" controls autoplay>
+        <source src="${post.img}" type="${post.type}">
+      </video>
+    `;
+  } else {
+    document.getElementById("modalImg").outerHTML = `
+      <img id="modalImg" src="${post.img}">
+    `;
+  }
+  document.getElementById("modalTitle").innerText = post.title;
+  document.getElementById("modalCaption").innerText = post.caption;
+  document.getElementById("modalMeta").innerText =
+    post.user + " • " + post.date + " • ❤️ " + post.likes;
+  document.getElementById("commentBox").innerHTML = "";
+}
+window.addEventListener("beforeunload", () => {
+  sessionStorage.setItem("scrollPos", window.scrollY);
+});
+window.addEventListener("load", () => {
+  const scrollPos = sessionStorage.getItem("scrollPos");
+  if(scrollPos){
+    window.scrollTo(0, parseInt(scrollPos));
+  }
+});
+</script>
+
+<script>
+modal.addEventListener("click", function(e){
+  if(e.target === modal){
+    e.stopPropagation();
+    closePost();
+  }
+});
+document.querySelector(".modal-content")
+.addEventListener("click", function(e){
+  e.stopPropagation();
+});
+const insightCards = document.querySelectorAll(".insight-card");
+window.addEventListener("scroll", () => {
+  insightCards.forEach(card => {
+    const cardTop = card.getBoundingClientRect().top;
+    if(cardTop < window.innerHeight - 100){
+      card.classList.add("show");
+    }
+  });
+});
+</script>
+
+<script>
+function revealInsightCards(){
+  insightCards.forEach(card => {
+    const windowHeight = window.innerHeight;
+    const cardTop = card.getBoundingClientRect().top;
+    if(cardTop < windowHeight - 100){
+      card.classList.add("show");
+    }
+  });
+}
+window.addEventListener("scroll", revealInsightCards);
+window.addEventListener("load", revealInsightCards);
+</script>
+
+<script>
+const pulseCards = document.querySelectorAll(".pulse-card");
+function revealPulseCards(){
+  pulseCards.forEach(card => {
+    const cardTop = card.getBoundingClientRect().top;
+    if(cardTop < window.innerHeight - 100){
+      card.classList.add("show");
+    }
+  });
+}
+window.addEventListener("scroll", revealPulseCards);
+window.addEventListener("load", revealPulseCards);
+function vote(button){
+  button.innerHTML = "✔ Voted";
+  button.style.background = "#0ea5e9";
+  button.style.color = "white";
+}
+const modal = document.getElementById("authModal");
+const app = document.getElementById("appContent");
+
+/* ON LOAD */
+window.onload = function(){
+
+  const role = localStorage.getItem("userRole");
+
+  if(role === "user" || role === "guest"){
+    hideAuth();
+  } else {
+    showAuth();
+  }
+
+  updateUser();
+}
+function showAuth(){
+  modal.classList.add("show");
+  app.classList.add("blur");
+}
+function hideAuth(){
+  modal.classList.remove("show");
+  app.classList.remove("blur");
+}
+function closeAuth(){
+  hideAuth();
+}
+function login(){
+  const u = document.getElementById("username").value;
+  if(u){
+    localStorage.setItem("userRole","user");
+    localStorage.setItem("username",u);
+    hideAuth();
+    updateUser();
+  }
+}
+function guest(){
+  localStorage.setItem("userRole","guest");
+  hideAuth();
+  updateUser();
+}
+function switchToRegister(){
+  alert("Register mode (bisa kamu kembangkan nanti)");
+}
+function updateNavbar(){
+  const role = localStorage.getItem("userRole");
+  const username = localStorage.getItem("username");
+  const loginNav = document.getElementById("loginNav");
+  const userNav = document.getElementById("userNav");
+  if(role === "user" && username){
+    loginNav.style.display = "none";
+    userNav.style.display = "flex";
+    document.getElementById("navName").textContent = username;
+    document.getElementById("navAvatar").textContent = username.charAt(0).toUpperCase();
+  } else {
+    loginNav.style.display = "block";
+    userNav.style.display = "none";
+  }
+}
+document.addEventListener("DOMContentLoaded", updateNavbar);
+</script>
+  </body>
+</html>
