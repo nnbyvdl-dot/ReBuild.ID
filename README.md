@@ -101,6 +101,6 @@ Future Improvements
 6. AI-based report classification
 
 Developer
-1. Frontend Developer: (Your Name)
+1. Frontend Developer: Nabilla Ayu Nevanda & Frisnanda Zulfyanti
 2. UI/UX Concept: Smart City Interface
 3. Project Type: Academic / Prototype Web App
